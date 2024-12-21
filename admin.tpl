@@ -24,7 +24,7 @@ $(function(){
   <tr>
     <th>{'Code'|@translate}</th>
     <th>{'Comment'|@translate}</th>
-    <th>{'Single Use'|@translate}</th>
+    <th>{'Number Of Uses'|@translate}</th>
     <th>{'Expires At'|@translate}</th>
     <th></th>
   </tr>
@@ -32,7 +32,7 @@ $(function(){
     <!-- <td><p><textarea style="border: none;" class="span2" name="register_code" placeholder="Example Code" id="register_code"></textarea></p></td> -->
     <td><p><input style="border:0" type="textarea" class="span2" name="register_code" placeholder="Example Code" id="register_code"></p></td>
     <td><p><textarea style="border: 0" class="span2" name="register_comment" placeholder="Optional Comment" id="register_comment"></textarea></p></td>
-    <td><p><center><input type="checkbox" id="register_single_use" name="register_single_use"></center></p></td>
+    <td><p><center><input type="number" id="uses" name="uses" value="0"></center></p></td>
     <td><p><input style="border:0" type="text" class="span2" name="register_expiry" value="{date("Y-m-d H:i:00", strtotime("+1 week", strtotime("now")))}" id="register_expiry"></p></td>
     <td><button type="submit">Add</button></td>
   </tr>
@@ -48,7 +48,7 @@ $(function(){
     <th>{'ID'|@translate}</th>
     <th>{'Code'|@translate}</th>
     <th>{'Comment'|@translate}</th>
-    <th>{'Single Use'|@translate}</th>
+    <th>{'Number Of Uses'|@translate}</th>
     <th>{'Times Used'|@translate}</th>
     <th>{'Expires At'|@translate}</th>
     <th>{'Created At'|@translate}</th>

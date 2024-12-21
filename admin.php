@@ -20,14 +20,10 @@ $template->set_filenames(
 $template->assign_var_from_handle('ADMIN_CONTENT', 'plugin_admin_content');
 
 if (isset($_POST["register_code"])) {
-    $register_code = $_POST["register_code"];
-    $register_comment = $_POST["register_comment"];
-    if(isset($_POST["register_single_use"])) {
-      $register_single_use = 1;
-    }else{
-      $register_single_use = 0;
-    }
-    $register_expiry = $_POST["register_expiry"];
+  $register_code = $_POST["register_code"];
+  $register_comment = $_POST["register_comment"];
+  $uses = $_POST["uses"];
+  $register_expiry = $_POST["register_expiry"];
 
   $check_query = 'select * from ' . $prefixeTable . "register_codes where code='$register_code'";
   $code_count = pwg_db_num_rows(pwg_query($check_query));
@@ -38,7 +34,7 @@ if (isset($_POST["register_code"])) {
     if($register_code == "") {
         echo "<font color='red'>Registration Code Required.</font>";
     }else{
-      $query = 'insert into ' . $prefixeTable . "register_codes (code,comment,single_use,expiry) values ('$register_code','$register_comment','$register_single_use','$register_expiry')";
+      $query = 'insert into ' . $prefixeTable . "register_codes (code,comment,uses,expiry) values ('$register_code','$register_comment','$uses','$register_expiry')";
       pwg_query($query);
     }
   }
@@ -66,7 +62,7 @@ function get_register_codes() {
     echo '<textarea style="border: 0" class="span2" name="comment" id="comment">' . $data['comment'] . '</textarea>';
     echo "</td>";
     echo "<td>";
-    echo '<input style="border:0" name="single_use" value="' . $data['single_use']. '" id="single_use" readonly/>';
+    echo '<input style="border:0" name="uses" value="' . $data['uses']. '" id="uses" readonly/>';
     echo "</td>";
     echo "<td>";
     echo '<input style="border:0" name="used" value="' . $data['used']. '" id="used" readonly/>';

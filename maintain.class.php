@@ -11,7 +11,7 @@ class register_codes_maintain extends PluginMaintain {
 id INT AUTO_INCREMENT PRIMARY KEY,
 code VARCHAR(255) NOT NULL,
 comment VARCHAR(255) NULL,
-single_use boolean not null default 0,
+uses int not null default 0,
 used int not null default 0,
 expiry TIMESTAMP NULL,
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

@@ -31,10 +31,17 @@ function check_code($errors) {
     if ($code_count == 0) {
       $errors[] = l10n('Invalid Registration Code');
     }else{
-	$check_used = 'select used,single_use from ' . $prefixeTable . "register_codes where code='$register_code' and expiry>='$now'";
-	list($used,$single_use) = pwg_db_fetch_row( pwg_query($check_used) );
-	if($single_use == 1 and $used > 0) {
-	  $errors[] = l10n('Invalid Registration Code');
+	$check_used = 'select used,uses from ' . $prefixeTable . "register_codes where code='$register_code' and expiry>='$now'";
+	list($used,$uses) = pwg_db_fetch_row( pwg_query($check_used) );
+	if($used >= $uses ) {
+	  if($uses == 0) {
+	        $used++;
+                $update_used = 'update ' . $prefixeTable . "register_codes set used = $used where code='$register_code' and expiry>='$now'";
+  	        pwg_query($update_used);
+
+	  }else{
+		$errors[] = l10n('Invalid Registration Code');
+	  }
 	}else{
 	  $used++;
 	  $update_used = 'update ' . $prefixeTable . "register_codes set used = $used where code='$register_code' and expiry>='$now'";

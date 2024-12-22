@@ -34,6 +34,7 @@ if (isset($_POST["register_code"])) {
     if($register_code == "") {
         echo "<font color='red'>Registration Code Required.</font>";
     }else{
+      if($register_expiry == "") { $register_expiry = "0000-00-00 00:00:00"; }
       $query = 'insert into ' . $prefixeTable . "register_codes (code,comment,uses,expiry) values ('$register_code','$register_comment','$uses','$register_expiry')";
       pwg_query($query);
     }

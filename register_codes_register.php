@@ -1,5 +1,4 @@
 <?php
-
 if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
 
 global $template, $prefixeTable;
@@ -15,7 +14,7 @@ function add_register_codes() {
   $template->set_prefilter('register', 'prefilter_register_codes');
 }
 
-function prefilter_register_codes($content, $smarty) {
+function prefilter_register_codes($content) {
   $search ="{'Send my connection settings by email'|@translate}"; // bootstrap darkroom, may change if your theme is different
   return str_replace($search, $search.'{$REGISTERCODES.parsed_content}', $content);
 }
@@ -43,9 +42,9 @@ function check_code($errors) {
 		$errors[] = l10n('Invalid Registration Code');
 	  }
 	}else{
-	  $used++;
-	  $update_used = 'update ' . $prefixeTable . "register_codes set used = $used where code='$register_code' and (expiry>='$now' or expiry='0000-00-00 00:00:00')";
-	  pwg_query($update_used);
+          $used++;
+          $update_used = 'update ' . $prefixeTable . "register_codes set used = $used where code='$register_code' and (expiry>='$now' or expiry='0000-00-00 00:00:00')";
+          pwg_query($update_used);
 	}
     }
   }else{

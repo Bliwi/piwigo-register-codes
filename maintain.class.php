@@ -1,7 +1,7 @@
 <?php
 defined('PHPWG_ROOT_PATH') or die('Hacking attempt!');
 
-class register_codes_maintain extends PluginMaintain {
+class piwigo_register_codes_maintain extends PluginMaintain {
 
   function activate($plugin_version, &$errors=array()) {
     global $prefixeTable;

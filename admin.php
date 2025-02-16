@@ -37,7 +37,7 @@ if (isset($_POST["register_code"])) {
       if($register_expiry == "") { $register_expiry = "0000-00-00 00:00:00"; }
       $query = 'insert into ' . $prefixeTable . "register_codes (code,comment,uses,expiry) values ('$register_code','$register_comment','$uses','$register_expiry')";
       pwg_query($query);
-      redirect('/admin.php?page=plugin&section=register_codes/admin.php'); //reloads page to show changes
+      redirect('/admin.php?page=plugin&section=piwigo-register-codes/admin.php'); //reloads page to show changes
     }
   }
 }
@@ -45,7 +45,7 @@ if (isset($_POST["register_code"])) {
 if (isset($_POST["id"],$_POST["code"])) {
   $query = 'delete from ' . $prefixeTable . 'register_codes where id="' . $_POST["id"] . '" and code="' . $_POST["code"] . '"';
   pwg_query($query);
-  redirect('/admin.php?page=plugin&section=register_codes/admin.php'); //reloads page to show changes
+  redirect('/admin.php?page=plugin&section=piwigo-register-codes/admin.php'); //reloads page to show changes
 }
 
 function get_register_codes() {

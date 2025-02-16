@@ -1,8 +1,8 @@
 <div class="titlePage">
  <h2>{'Register Codes Plugin'|@translate}</h2>
 </div>
-<link rel="stylesheet" href="/plugins/register_codes/css/foundation-datepicker.css">
-<script src="/plugins/register_codes/js/foundation-datepicker.js"></script>
+<link rel="stylesheet" href="/plugins/piwigo-register-codes/css/foundation-datepicker.css">
+<script src="/plugins/piwigo-register-codes/js/foundation-datepicker.js"></script>
 <script>
 $(function(){
   $('#register_expiry').fdatepicker({

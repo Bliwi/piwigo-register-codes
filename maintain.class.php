@@ -14,7 +14,8 @@ comment VARCHAR(255) NULL,
 uses int not null default 0,
 used int not null default 0,
 expiry TIMESTAMP NULL,
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+user_ids TEXT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;';
     pwg_query($query);
   }

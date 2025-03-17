@@ -30,22 +30,25 @@ function check_code($errors) {
     if ($code_count == 0) {
       $errors[] = l10n('Invalid Registration Code');
     }else{
-	$check_used = 'select used,uses from ' . $prefixeTable . "register_codes where code='$register_code' and (expiry>='$now' or expiry IS NULL)";
-	list($used,$uses) = pwg_db_fetch_row( pwg_query($check_used) );
-	if($used >= $uses ) {
-	  if($uses == 0) {
-	        $used++;
-                $update_used = 'update ' . $prefixeTable . "register_codes set used = $used where code='$register_code' and (expiry>='$now' or expiry IS NULL)";
-  	        pwg_query($update_used);
-
-	  }else{
-		$errors[] = l10n('Invalid Registration Code');
-	  }
-	}else{
+      $check_used = 'select used,uses from ' . $prefixeTable . "register_codes where code='$register_code' and (expiry>='$now' or expiry IS NULL)";
+      list($used,$uses) = pwg_db_fetch_row( pwg_query($check_used) );
+      if($used >= $uses ) {
+        if($uses == 0) {
           $used++;
           $update_used = 'update ' . $prefixeTable . "register_codes set used = $used where code='$register_code' and (expiry>='$now' or expiry IS NULL)";
           pwg_query($update_used);
-	}
+          // Store the code in session to use after successful registration
+          $_SESSION['register_code_used'] = $register_code;
+        }else{
+          $errors[] = l10n('Invalid Registration Code');
+        }
+      }else{
+        $used++;
+        $update_used = 'update ' . $prefixeTable . "register_codes set used = $used where code='$register_code' and (expiry>='$now' or expiry IS NULL)";
+        pwg_query($update_used);
+        // Store the code in session to use after successful registration
+        $_SESSION['register_code_used'] = $register_code;
+      }
     }
   }else{
     $errors[] = l10n('Invalid Registration Code');

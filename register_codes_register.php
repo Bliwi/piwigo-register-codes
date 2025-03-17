@@ -24,18 +24,18 @@ function check_code($errors) {
   if(isset($_POST['register_code'])) {
     $register_code = $_POST['register_code'];
     $now = date("Y-m-d H:i:s");
-    $check_query = 'select * from ' . $prefixeTable . "register_codes where code='$register_code' and (expiry>='$now' or expiry='0000-00-00 00:00:00')";
+    $check_query = 'select * from ' . $prefixeTable . "register_codes where code='$register_code' and (expiry>='$now' or expiry IS NULL)";
     $check_return = pwg_query($check_query);
     $code_count = pwg_db_num_rows($check_return);
     if ($code_count == 0) {
       $errors[] = l10n('Invalid Registration Code');
     }else{
-	$check_used = 'select used,uses from ' . $prefixeTable . "register_codes where code='$register_code' and (expiry>='$now' or expiry='0000-00-00 00:00:00')";
+	$check_used = 'select used,uses from ' . $prefixeTable . "register_codes where code='$register_code' and (expiry>='$now' or expiry IS NULL)";
 	list($used,$uses) = pwg_db_fetch_row( pwg_query($check_used) );
 	if($used >= $uses ) {
 	  if($uses == 0) {
 	        $used++;
-                $update_used = 'update ' . $prefixeTable . "register_codes set used = $used where code='$register_code' and (expiry>='$now' or expiry='0000-00-00 00:00:00')";
+                $update_used = 'update ' . $prefixeTable . "register_codes set used = $used where code='$register_code' and (expiry>='$now' or expiry IS NULL)";
   	        pwg_query($update_used);
 
 	  }else{
@@ -43,7 +43,7 @@ function check_code($errors) {
 	  }
 	}else{
           $used++;
-          $update_used = 'update ' . $prefixeTable . "register_codes set used = $used where code='$register_code' and (expiry>='$now' or expiry='0000-00-00 00:00:00')";
+          $update_used = 'update ' . $prefixeTable . "register_codes set used = $used where code='$register_code' and (expiry>='$now' or expiry IS NULL)";
           pwg_query($update_used);
 	}
     }

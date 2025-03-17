@@ -34,10 +34,14 @@ if (isset($_POST["register_code"])) {
     if($register_code == "") {
         echo "<font color='red'>Registration Code Required.</font>";
     }else{
-      if($register_expiry == "") { $register_expiry = "0000-00-00 00:00:00"; }
-      $query = 'insert into ' . $prefixeTable . "register_codes (code,comment,uses,expiry) values ('$register_code','$register_comment','$uses','$register_expiry')";
+      if($register_expiry == "") {
+        $query = 'insert into ' . $prefixeTable . "register_codes (code,comment,uses,expiry) values ('$register_code','$register_comment','$uses',NULL)";
+      }else{
+        $query = 'insert into ' . $prefixeTable . "register_codes (code,comment,uses,expiry) values ('$register_code','$register_comment','$uses','$register_expiry')";
+      }
       pwg_query($query);
-      redirect('/admin.php?page=plugin&section=piwigo-register-codes/admin.php'); //reloads page to show changes
+      $self_url = $_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
+      redirect($self_url);
     }
   }
 }
@@ -45,7 +49,8 @@ if (isset($_POST["register_code"])) {
 if (isset($_POST["id"],$_POST["code"])) {
   $query = 'delete from ' . $prefixeTable . 'register_codes where id="' . $_POST["id"] . '" and code="' . $_POST["code"] . '"';
   pwg_query($query);
-  redirect('/admin.php?page=plugin&section=piwigo-register-codes/admin.php'); //reloads page to show changes
+  $self_url = $_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
+  redirect($self_url);
 }
 
 function get_register_codes() {

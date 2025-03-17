@@ -49,8 +49,71 @@ function copyCode(code) {
 #previous_codes input, #previous_codes textarea {
   border: 0 !important;
 }
+table {
+  border-collapse: collapse;
+}
+
+/* Table header styling */
+thead {
+  background-color: #4CAF50;
+  color: white;
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid #ddd; /* Adds a border to cells */
+}
+
+/* Zebra striping for rows */
+tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+tbody tr:nth-child(even):not(.row1):not(.row2) {
+  background-color: #f1f1f1;
+}
+
+/* Hover effect for rows */
+tbody tr:hover {
+  background-color: #ffedde !important;
+}
+#previous_codes INPUT {
+  background-color: transparent !important;
+  text-align: center;
+}
+#previous_codes textarea {  
+  background-color: transparent !important;
+}
+#previous_codes .row-one {
+  background-color: #f9f9f9;
+}
+#previous_codes .row-two {
+  background-color: #f1f1f1;
+}
+.btn {
+  font-weight: normal;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+.btn-copy {
+  margin-right: 10px;
+}
+.btn-red {
+  color: white;
+  background-color: #f44336;
+}
+#new-code INPUT {
+  padding: 5px;
+  border-radius: 5px;
+}
+#new-code textarea {
+  padding: 5px;
+  border-radius: 5px;
+}
 {/html_style}
 <fieldset>
+<div id="new-code">
 <legend>{'Register Codes Description'|@translate}</legend>
 <table border=1>
 <form method="post">
@@ -66,15 +129,15 @@ function copyCode(code) {
   </tr>
   <tr>
     <!-- <td><p><textarea style="border: none;" class="span2" name="register_code" placeholder="Example Code" id="register_code"></textarea></p></td> -->
-    <td><button type="button" onclick="generateCode()">Generate Code</button><p><input style="border:0" type="textarea" class="span2" name="register_code" placeholder="Example Code" id="register_code"></p></td>
+    <td><button type="button" class="btn" onclick="generateCode()">Generate Code</button><p><input style="border:0" type="textarea" class="span2" name="register_code" placeholder="Example Code" id="register_code"></p></td>
     <td><p><textarea style="border: 0" class="span2" name="register_comment" placeholder="Optional Comment" id="register_comment"></textarea></p></td>
     <td><p><center><input type="number" id="uses" name="uses" value="1" min="0"></center></p></td>
     <td><p><input style="border:0" type="text" class="span2" name="register_expiry" value="{date("Y-m-d H:i:00", strtotime("+1 week", strtotime("now")))}" id="register_expiry"></p></td>
-    <td><button type="submit">Add</button></td>
+    <td><button type="submit" class="btn">Add</button></td>
   </tr>
 </form>
 </table>
-
+</div>
 <br><br>
 <div id="previous_codes">
 <table border=1>
@@ -94,15 +157,15 @@ function copyCode(code) {
 
   {foreach from=$register_codes item=data}
     <form method='post'>
-      <tr>
+      <tr class="{cycle values='row-one,row-two'}">
         <td>
           <input name="id" value="{$data.id}" id="id" readonly/>
         </td>
         <td>
-          <button type="button" onclick="copyCode('{$data.code}')">Copy Code</button><input name="code" value="{$data.code}" id="code" readonly/>
+          <button type="button" class="btn pluginActionLevel1 btn-copy" onclick="copyCode('{$data.code}')">Copy Code</button><input name="code" value="{$data.code}" id="code" readonly/>
         </td>
         <td>
-          <textarea class="span2" name="comment" id="comment">{$data.comment}</textarea>
+          {if !empty($data.comment)}<textarea class="span2" name="comment" id="comment">{$data.comment}</textarea>{else}-{/if}
         </td>
         <td>
           <input name="uses" value="{$data.uses}" id="uses" readonly/>
@@ -117,7 +180,7 @@ function copyCode(code) {
           <input name="created_at" value="{$data.created_at}" id="created_at" readonly/>
         </td>
         <td>
-          <button type="submit">Delete</button>
+          <button class="btn btn-red" type="submit">Delete</button>
         </td>
       </tr>
     </form>

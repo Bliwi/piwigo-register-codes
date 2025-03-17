@@ -123,7 +123,7 @@ tbody tr:hover {
   <tr>
     <th>{'Code'|@translate}</th>
     <th>{'Comment'|@translate}</th>
-    <th>{'Number Of Uses'|@translate}</th>
+    <th>{'Number Of Uses'|@translate}<br>({'0 for unlimited'|@translate})</th>
     <th>{'Expires At'|@translate}</th>
     <th></th>
   </tr>
@@ -168,7 +168,7 @@ tbody tr:hover {
           {if !empty($data.comment)}<textarea class="span2" name="comment" id="comment">{$data.comment}</textarea>{else}-{/if}
         </td>
         <td>
-          <input name="uses" value="{$data.uses}" id="uses" readonly/>
+          <input name="uses" value="{if $data.uses == '0'}{'Unlimited'|@translate}{else}{$data.uses}{/if}" id="uses" readonly/>
         </td>
         <td>
           <input name="used" value="{$data.used}" id="used" readonly/>

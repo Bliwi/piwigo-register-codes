@@ -8,7 +8,7 @@ check_status(ACCESS_ADMINISTRATOR);
 // Fetch the template.
 global $template, $prefixeTable;
 include_once(PHPWG_ROOT_PATH . 'admin/include/tabsheet.class.php');
-
+get_register_codes();
 // Add our template to the global template
 $template->set_filenames(
  array(
@@ -20,6 +20,7 @@ $template->set_filenames(
 $template->assign_var_from_handle('ADMIN_CONTENT', 'plugin_admin_content');
 
 if (isset($_POST["register_code"])) {
+
   $register_code = $_POST["register_code"];
   $register_comment = $_POST["register_comment"];
   $uses = $_POST["uses"];
@@ -54,39 +55,20 @@ if (isset($_POST["id"],$_POST["code"])) {
 }
 
 function get_register_codes() {
-  global $prefixeTable, $template;
-  $query = 'SELECT * from ' . $prefixeTable . 'register_codes;';
-  $mysql_data = query2array($query);
-  foreach($mysql_data as $data) {
-    echo "<form method='post'>";
-    echo "<tr>";
-    echo "<td>";
-    echo '<input style="border:0" name="id" value="' . $data['id']. '" id="id" readonly/>';
-    echo "</td>";
-    echo "<td>";
-    echo '<input style="border:0" name="code" value="' . $data['code']. '" id="code" readonly/>';
-    echo "</td>";
-    echo "<td>";
-    echo '<textarea style="border: 0" class="span2" name="comment" id="comment">' . $data['comment'] . '</textarea>';
-    echo "</td>";
-    echo "<td>";
-    echo '<input style="border:0" name="uses" value="' . $data['uses']. '" id="uses" readonly/>';
-    echo "</td>";
-    echo "<td>";
-    echo '<input style="border:0" name="used" value="' . $data['used']. '" id="used" readonly/>';
-    echo "</td>";
-    echo "<td>";
-    echo '<input style="border:0" name="expiry" value="' . $data['expiry']. '" id="expiry" readonly/>';
-    echo "</td>";
-    echo "<td>";
-    echo '<input style="border:0" name="created_at" value="' . $data['created_at']. '" id="created_at" readonly/>';
-    echo "</td>";
-    echo "<td>";
-    echo '<button type="submit">Delete</button>';
-    echo "</td>";
-    echo "</tr>";
-    echo "</form>";
+  global $template, $prefixeTable;
+  
+  $query = 'SELECT * FROM ' . $prefixeTable . 'register_codes ORDER BY id DESC';
+  $result = pwg_query($query);
+  
+  $codes = array();
+  while ($row = pwg_db_fetch_assoc($result)) {
+    $codes[] = $row;
   }
+  
+  $template->assign('register_codes', $codes);
 }
+
+// Call this function to make sure the data is available for the template
+
 
 ?>

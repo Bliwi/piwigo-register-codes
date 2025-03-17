@@ -60,7 +60,36 @@ function generateCode() {
     <th></th>
   </tr>
 
-{get_register_codes()}
+  {foreach from=$register_codes item=data}
+    <form method='post'>
+      <tr>
+        <td>
+          <input style="border:0" name="id" value="{$data.id}" id="id" readonly/>
+        </td>
+        <td>
+          <input style="border:0" name="code" value="{$data.code}" id="code" readonly/>
+        </td>
+        <td>
+          <textarea style="border: 0" class="span2" name="comment" id="comment">{$data.comment}</textarea>
+        </td>
+        <td>
+          <input style="border:0" name="uses" value="{$data.uses}" id="uses" readonly/>
+        </td>
+        <td>
+          <input style="border:0" name="used" value="{$data.used}" id="used" readonly/>
+        </td>
+        <td>
+          <input style="border:0" name="expiry" value="{$data.expiry}" id="expiry" readonly/>
+        </td>
+        <td>
+          <input style="border:0" name="created_at" value="{$data.created_at}" id="created_at" readonly/>
+        </td>
+        <td>
+          <button type="submit">Delete</button>
+        </td>
+      </tr>
+    </form>
+  {/foreach}
 
 </table>
 </fieldset>

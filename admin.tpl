@@ -17,6 +17,32 @@ function generateCode() {
   var code = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
   $('#register_code').val(code);
 }
+function copyCode(code) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    // Use the modern Clipboard API if available
+    navigator.clipboard.writeText(code).then(
+      () => {
+        console.log("Code copied to clipboard!");
+      },
+      (err) => {
+        console.error("Failed to copy code: ", err);
+      }
+    );
+  } else {
+    // Fallback for older browsers
+    const textarea = document.createElement("textarea");
+    textarea.value = code;
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+      document.execCommand("copy");
+      console.log("Code copied to clipboard!");
+    } catch (err) {
+      console.error("Fallback: Failed to copy code: ", err);
+    }
+    document.body.removeChild(textarea);
+  }
+}
 </script>
 
 {html_style}
@@ -73,7 +99,7 @@ function generateCode() {
           <input name="id" value="{$data.id}" id="id" readonly/>
         </td>
         <td>
-          <button type="button" onclick="copyCode({$data.code})">Copy Code</button><input name="code" value="{$data.code}" id="code" readonly/>
+          <button type="button" onclick="copyCode('{$data.code}')">Copy Code</button><input name="code" value="{$data.code}" id="code" readonly/>
         </td>
         <td>
           <textarea class="span2" name="comment" id="comment">{$data.comment}</textarea>

@@ -37,7 +37,7 @@ function generateCode() {
     <!-- <td><p><textarea style="border: none;" class="span2" name="register_code" placeholder="Example Code" id="register_code"></textarea></p></td> -->
     <td><button type="button" onclick="generateCode()">Generate Code</button><p><input style="border:0" type="textarea" class="span2" name="register_code" placeholder="Example Code" id="register_code"></p></td>
     <td><p><textarea style="border: 0" class="span2" name="register_comment" placeholder="Optional Comment" id="register_comment"></textarea></p></td>
-    <td><p><center><input type="number" id="uses" name="uses" value="0" min="0"></center></p></td>
+    <td><p><center><input type="number" id="uses" name="uses" value="1" min="0"></center></p></td>
     <td><p><input style="border:0" type="text" class="span2" name="register_expiry" value="{date("Y-m-d H:i:00", strtotime("+1 week", strtotime("now")))}" id="register_expiry"></p></td>
     <td><button type="submit">Add</button></td>
   </tr>

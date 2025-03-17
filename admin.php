@@ -25,7 +25,7 @@ if (isset($_POST["register_code"])) {
   $register_comment = $_POST["register_comment"];
   $uses = $_POST["uses"];
   $register_expiry = $_POST["register_expiry"];
-
+  $_SESSION['reg_codes_uses_default'] = $uses;
   $check_query = 'select * from ' . $prefixeTable . "register_codes where code='$register_code'";
   $code_count = pwg_db_num_rows(pwg_query($check_query));
 
@@ -64,7 +64,11 @@ function get_register_codes() {
   while ($row = pwg_db_fetch_assoc($result)) {
     $codes[] = $row;
   }
-  
+  if(isset($_SESSION['reg_codes_uses_default'])){
+    $template->assign('reg_codes_uses_default', $_SESSION['reg_codes_uses_default']);
+  }else{
+    $template->assign('reg_codes_uses_default', 0);
+  }
   $template->assign('register_codes', $codes);
 }
 

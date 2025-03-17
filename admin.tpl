@@ -19,6 +19,11 @@ function generateCode() {
 }
 </script>
 
+{html_style}
+#previous_codes input, #previous_codes textarea {
+  border: 0 !important;
+}
+{/html_style}
 <fieldset>
 <legend>{'Register Codes Description'|@translate}</legend>
 <table border=1>
@@ -45,6 +50,7 @@ function generateCode() {
 </table>
 
 <br><br>
+<div id="previous_codes">
 <table border=1>
   <tr>
     <th colspan="8">{'Existing Codes'|@translate}</th>
@@ -64,25 +70,25 @@ function generateCode() {
     <form method='post'>
       <tr>
         <td>
-          <input style="border:0" name="id" value="{$data.id}" id="id" readonly/>
+          <input name="id" value="{$data.id}" id="id" readonly/>
         </td>
         <td>
-          <input style="border:0" name="code" value="{$data.code}" id="code" readonly/>
+          <button type="button" onclick="copyCode({$data.code})">Copy Code</button><input name="code" value="{$data.code}" id="code" readonly/>
         </td>
         <td>
-          <textarea style="border: 0" class="span2" name="comment" id="comment">{$data.comment}</textarea>
+          <textarea class="span2" name="comment" id="comment">{$data.comment}</textarea>
         </td>
         <td>
-          <input style="border:0" name="uses" value="{$data.uses}" id="uses" readonly/>
+          <input name="uses" value="{$data.uses}" id="uses" readonly/>
         </td>
         <td>
-          <input style="border:0" name="used" value="{$data.used}" id="used" readonly/>
+          <input name="used" value="{$data.used}" id="used" readonly/>
         </td>
         <td>
-          <input style="border:0" name="expiry" value="{$data.expiry}" id="expiry" readonly/>
+          <input name="expiry" value="{$data.expiry}" id="expiry" readonly/>
         </td>
         <td>
-          <input style="border:0" name="created_at" value="{$data.created_at}" id="created_at" readonly/>
+          <input name="created_at" value="{$data.created_at}" id="created_at" readonly/>
         </td>
         <td>
           <button type="submit">Delete</button>
@@ -92,5 +98,6 @@ function generateCode() {
   {/foreach}
 
 </table>
+</div>
 </fieldset>
 

@@ -61,15 +61,26 @@ function get_register_codes() {
   $result = pwg_query($query);
   
   $codes = array();
+  $expired_codes = array();
+  
   while ($row = pwg_db_fetch_assoc($result)) {
-    $codes[] = $row;
+    // Check if code is expired by usage count or date
+    if (($row['used'] >= $row['uses'] && $row['uses'] != 0) || 
+        ($row['expiry'] !== NULL && strtotime($row['expiry']) < time())) {
+      $expired_codes[] = $row;
+    } else {
+      $codes[] = $row;
+    }
   }
+  
   if(isset($_SESSION['reg_codes_uses_default'])){
     $template->assign('reg_codes_uses_default', $_SESSION['reg_codes_uses_default']);
   }else{
     $template->assign('reg_codes_uses_default', 0);
   }
+  
   $template->assign('register_codes', $codes);
+  $template->assign('expired_codes', $expired_codes);
 }
 
 // Call this function to make sure the data is available for the template

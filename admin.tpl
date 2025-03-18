@@ -151,6 +151,10 @@ tbody tr:hover {
   padding: 5px;
   border-radius: 5px;
 }
+#expired_codes {
+  margin-top: 20px;
+  margin-bottom: 200px;
+}
 {/html_style}
 <fieldset>
 <div id="new-code">
@@ -227,7 +231,8 @@ tbody tr:hover {
   {/foreach}
 
 </table>
-{*
+
+{if $expired_codes != null}
 <div id="expired_codes">
 <table border=1>
   <tr>
@@ -244,14 +249,14 @@ tbody tr:hover {
     <th></th>
   </tr>
 
-  {foreach from=$register_expired_codes item=data}
+  {foreach from=$expired_codes item=data}
     <form method='post'>
       <tr class="{cycle values='row-one,row-two'}">
         <td>
           <input name="id" value="{$data.id}" id="id" readonly/>
         </td>
         <td>
-          <button type="button" class="btn pluginActionLevel1 btn-copy" onclick="copyCode('{$data.code}')">Copy Code</button><input name="code" value="{$data.code}" id="code" readonly/>
+          <input name="code" value="{$data.code}" id="code" readonly/>
         </td>
         <td>
           {if !empty($data.comment)}<textarea class="span2" name="comment" id="comment">{$data.comment}</textarea>{else}-{/if}
@@ -274,9 +279,8 @@ tbody tr:hover {
       </tr>
     </form>
   {/foreach}
-
 </table>
-*}
 </div>
+{/if}
 </fieldset>
 

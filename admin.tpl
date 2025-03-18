@@ -1,3 +1,61 @@
+
+{function name=displayCodesTable table_title='' codes_data=null enable_copy=true}
+<div {if $enable_copy}class="active_codes_table"{/if} id="code_table">
+  <table border=1>
+    <tr>
+      <th colspan="8">{$table_title|@translate}</th>
+    </tr>
+    <tr>
+      <th>{'ID'|@translate}</th>
+      <th>{'Code'|@translate}</th>
+      <th>{'Comment'|@translate}</th>
+      <th>{'Number Of Uses'|@translate}</th>
+      <th>{'Times Used'|@translate}</th>
+      <th>{'Expires At'|@translate}</th>
+      <th>{'Created At'|@translate}</th>
+      <th></th>
+    </tr>
+
+    {foreach from=$codes_data item=data}
+      <form method='post'>
+        <tr class="{cycle values='row-one,row-two'}">
+          <td>
+            <input name="id" value="{$data.id}" id="id" readonly />
+          </td>
+          <td>
+            {if $enable_copy}
+              <button type="button" class="btn pluginActionLevel1 btn-copy" onclick="copyCode('{$data.code}')">{'Copy'|@translate}
+                Code</button>
+            {/if}
+            <input name="code" value="{$data.code}" id="code" readonly />
+          </td>
+          <td>
+            {if !empty($data.comment)}<textarea class="span2" name="comment"
+              id="comment">{$data.comment}</textarea>{else}-
+              {/if}
+          </td>
+          <td>
+            <input name="uses" value="{if $data.uses == '0'}{'Unlimited'|@translate}{else}{$data.uses}{/if}" id="uses"
+              readonly />
+          </td>
+          <td>
+            <input name="used" value="{$data.used}" id="used" readonly />
+          </td>
+          <td>
+            <input name="expiry" value="{if isset($data.expiry)}{$data.expiry}{else}-{/if}" id="expiry" readonly />
+          </td>
+          <td>
+            <input name="created_at" value="{$data.created_at}" id="created_at" readonly />
+          </td>
+          <td>
+            <button class="btn btn-red" type="submit">{'Delete'|@translate}</button>
+          </td>
+        </tr>
+      </form>
+    {/foreach}
+  </table>
+  </div>
+{/function}
 <div class="titlePage">
   <h2>{'Register Codes Plugin'|@translate}</h2>
 </div>
@@ -42,7 +100,6 @@
 
   function copyCode(code) {
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      // Use the modern Clipboard API if available
       navigator.clipboard.writeText(code).then(
         () => {
           console.log("Code copied to clipboard!");
@@ -52,7 +109,6 @@
         }
       );
     } else {
-      // Fallback for older browsers
       const textarea = document.createElement("textarea");
       textarea.value = code;
       document.body.appendChild(textarea);
@@ -73,15 +129,13 @@
       alert("{'Please enter a comment to search for'|@translate}");
       return;
     }
-    
-    const codeTable = document.getElementById('previous_codes');
+    const codeTable = document.querySelector('.active_codes_table');
     const commentTextareas = codeTable.querySelectorAll('textarea[name="comment"]');
     
     let matchingCodes = [];
     
     commentTextareas.forEach(textarea => {
       if (textarea.value.trim() === searchComment) {
-        // Find the parent row and extract the code
         const row = textarea.closest('tr');
         const codeInput = row.querySelector('input[name="code"]');
         if (codeInput && codeInput.value) {
@@ -95,7 +149,6 @@
       return;
     }
     
-    // Copy all codes to clipboard
     const codesText = matchingCodes.join('\n');
     
     if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -109,7 +162,6 @@
         }
       );
     } else {
-      // Fallback for older browsers
       const textarea = document.createElement("textarea");
       textarea.value = codesText;
       document.body.appendChild(textarea);
@@ -139,7 +191,7 @@
 --btn-color: #000000;
 }
 
-#previous_codes input, #previous_codes textarea {
+#code_table input, #code_table textarea {
 border: 0 !important;
 color: var(--text-color);
 }
@@ -172,17 +224,17 @@ background-color: var(--row-even-bg);
 tbody tr:hover {
 background-color: var(--hover-color) !important;
 }
-#previous_codes INPUT {
+#code_table INPUT {
 background-color: transparent !important;
 text-align: center;
 }
-#previous_codes textarea {
+#code_table textarea {
 background-color: transparent !important;
 }
-#previous_codes .row-one {
+#code_table .row-one {
 background-color: var(--row-odd-bg);
 }
-#previous_codes .row-two {
+#code_table .row-two {
 background-color: var(--row-even-bg);
 }
 .btn {
@@ -217,6 +269,12 @@ margin-bottom: 200px;
 .table-margin {
 margin-top: 10px;
 margin-bottom: 10px;
+}
+#batch-code-details {
+  border: 1px solid var(--border-color);
+  width: min-content;
+  margin: 10px auto;
+  padding: 10px;
 }
 {/html_style}
 <fieldset>
@@ -262,8 +320,8 @@ margin-bottom: 10px;
     </table>
   </div>
   <div id="batch-code">
-    <details>
-      <summary class="h2">{'Batch Code Generator'|@translate}</summary>
+    <details id="batch-code-details">
+      <summary style="font-size: 1.2em; text-wrap: nowrap;">{'Batch Code Generator'|@translate}</summary>
       <form method="post">
         <table border=1 class="table-margin">
           <tr>
@@ -311,110 +369,8 @@ margin-bottom: 10px;
     </details>
   </div>
   
-  <div id="previous_codes" class="table-margin">
-    <table border=1>
-      <tr>
-        <th colspan="8">{'Existing Codes'|@translate}</th>
-      </tr>
-      <tr>
-        <th>{'ID'|@translate}</th>
-        <th>{'Code'|@translate}</th>
-        <th>{'Comment'|@translate}</th>
-        <th>{'Number Of Uses'|@translate}</th>
-        <th>{'Times Used'|@translate}</th>
-        <th>{'Expires At'|@translate}</th>
-        <th>{'Created At'|@translate}</th>
-        <th></th>
-      </tr>
-
-      {foreach from=$register_codes item=data}
-        <form method='post'>
-          <tr class="{cycle values='row-one,row-two'}">
-            <td>
-              <input name="id" value="{$data.id}" id="id" readonly />
-            </td>
-            <td>
-              <button type="button" class="btn pluginActionLevel1 btn-copy" onclick="copyCode('{$data.code}')">{'Copy'|@translate}
-                Code</button><input name="code" value="{$data.code}" id="code" readonly />
-            </td>
-            <td>
-              {if !empty($data.comment)}<textarea class="span2" name="comment"
-                id="comment">{$data.comment}</textarea>{else}-
-                {/if}
-            </td>
-            <td>
-              <input name="uses" value="{if $data.uses == '0'}{'Unlimited'|@translate}{else}{$data.uses}{/if}" id="uses"
-                readonly />
-            </td>
-            <td>
-              <input name="used" value="{$data.used}" id="used" readonly />
-            </td>
-            <td>
-              <input name="expiry" value="{if isset($data.expiry)}{$data.expiry}{else}-{/if}" id="expiry" readonly />
-            </td>
-            <td>
-              <input name="created_at" value="{$data.created_at}" id="created_at" readonly />
-            </td>
-            <td>
-              <button class="btn btn-red" type="submit">{'Delete'|@translate}</button>
-            </td>
-          </tr>
-        </form>
-      {/foreach}
-
-    </table>
-
-    {if $expired_codes != null}
-      <div id="expired_codes">
-        <table border=1>
-          <tr>
-            <th colspan="8">{'Expired Codes'|@translate}</th>
-          </tr>
-          <tr>
-            <th>{'ID'|@translate}</th>
-            <th>{'Code'|@translate}</th>
-            <th>{'Comment'|@translate}</th>
-            <th>{'Number Of Uses'|@translate}</th>
-            <th>{'Times Used'|@translate}</th>
-            <th>{'Expires At'|@translate}</th>
-            <th>{'Created At'|@translate}</th>
-            <th></th>
-          </tr>
-
-          {foreach from=$expired_codes item=data}
-            <form method='post'>
-              <tr class="{cycle values='row-one,row-two'}">
-                <td>
-                  <input name="id" value="{$data.id}" id="id" readonly />
-                </td>
-                <td>
-                  <input name="code" value="{$data.code}" id="code" readonly />
-                </td>
-                <td>
-                  {if !empty($data.comment)}<textarea class="span2" name="comment"
-                    id="comment">{$data.comment}</textarea>{else}-
-                    {/if}
-                </td>
-                <td>
-                  <input name="uses" value="{if $data.uses == '0'}{'Unlimited'|@translate}{else}{$data.uses}{/if}" id="uses"
-                    readonly />
-                </td>
-                <td>
-                  <input name="used" value="{$data.used}" id="used" readonly />
-                </td>
-                <td>
-                  <input name="expiry" value="{$data.expiry}" id="expiry" readonly />
-                </td>
-                <td>
-                  <input name="created_at" value="{$data.created_at}" id="created_at" readonly />
-                </td>
-                <td>
-                  <button class="btn btn-red" type="submit">Delete</button>
-                </td>
-              </tr>
-            </form>
-          {/foreach}
-        </table>
-      </div>
-    {/if}
+    {displayCodesTable table_title="Existing Codes" codes_data=$register_codes enable_copy=true}
+  {if $expired_codes != null}
+      {displayCodesTable table_title="Expired Codes" codes_data=$expired_codes enable_copy=false}
+  {/if}
 </fieldset>

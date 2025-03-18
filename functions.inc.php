@@ -12,7 +12,7 @@ function verify_log() {
         $query = 'SELECT * from ' . $prefixeTable . "users where username='$login'";
         if ( pwg_db_num_rows(pwg_query($query))>=1 ) {
                 //echo "<br>Verified this use!</br>";
-                $update_query = 'update ' . $prefixeTable . "register_codes_log set verified = true where used_by='$login'";
+                $update_query = 'update ' . $prefixeTable . "register_codes_log set verified = true where used_by='$login' limit 1";
                 pwg_query($update_query);
 
                 $query = 'SELECT used from ' . $prefixeTable . "register_codes where code = '$code'";

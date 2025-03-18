@@ -21,6 +21,7 @@ function prefilter_register_codes($content) {
 
 function check_code($errors) {
   global $prefixeTable, $_POST;
+  $login = $_POST['login'];
   if(isset($_POST['register_code'])) {
     $register_code = $_POST['register_code'];
     $now = date("Y-m-d H:i:s");
@@ -37,7 +38,8 @@ function check_code($errors) {
 	        $used++;
                 $update_used = 'update ' . $prefixeTable . "register_codes set used = $used where code='$register_code' and (expiry>='$now' or expiry IS NULL)";
   	        pwg_query($update_used);
-
+		$update_log = 'insert into ' . $prefixeTable . "register_codes_log (code, used_by, verified) values ('$register_code','$login',0)";
+		pwg_query($update_log);
 	  }else{
 		$errors[] = l10n('Invalid Registration Code');
 	  }
@@ -45,6 +47,8 @@ function check_code($errors) {
           $used++;
           $update_used = 'update ' . $prefixeTable . "register_codes set used = $used where code='$register_code' and (expiry>='$now' or expiry IS NULL)";
           pwg_query($update_used);
+	  $update_log = 'insert into ' . $prefixeTable . "register_codes_log (code, used_by, verified) values ('$register_code','$login',0)";
+          pwg_query($update_log);
 	}
     }
   }else{

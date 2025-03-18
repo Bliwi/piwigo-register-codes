@@ -9,7 +9,7 @@ function verify_log() {
         $login = $row['used_by'];
         $code = $row['code'];
         //echo "<br>Verifying $login -- $code</br>";
-        $query = 'SELECT count(*) from ' . $prefixeTable . "users where username='$login'";
+        $query = 'SELECT * from ' . $prefixeTable . "users where username='$login'";
         if ( pwg_db_num_rows(pwg_query($query))>=1 ) {
                 //echo "<br>Verified this use!</br>";
                 $update_query = 'update ' . $prefixeTable . "register_codes_log set verified = true where used_by='$login'";

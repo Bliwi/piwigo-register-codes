@@ -1,7 +1,7 @@
 <?php
 if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
-
 global $template, $prefixeTable;
+include_once("functions.inc.php");
 
 $template->set_filename('register_codes_register', realpath(REGISTER_CODES_PATH.'register_codes_register.tpl'));
 $template->assign('REGISTERCODES', array('parsed_content' => $template->parse('register_codes_register', true)), true);
@@ -12,7 +12,6 @@ add_event_handler('register_user_check', 'check_code');
 function add_register_codes() {
   global $template;
   $template->set_prefilter('register', 'prefilter_register_codes');
-  include_once("functions.inc.php");
   verify_log();
 }
 
@@ -23,6 +22,7 @@ function prefilter_register_codes($content) {
 
 function check_code($errors) {
   global $prefixeTable, $_POST;
+  verify_log();
   $login = $_POST['login'];
   if(isset($_POST['register_code'])) {
     $register_code = $_POST['register_code'];

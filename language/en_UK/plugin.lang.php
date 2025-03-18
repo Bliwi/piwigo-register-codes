@@ -13,4 +13,14 @@ $lang['Times Used'] = 'Times Used';
 $lang['Created At'] = 'Created At';
 $lang['Existing Codes'] = 'Existing Codes';
 $lang['ID'] = 'ID';
+$lang['Batch Code Generator'] = 'Batch Code Generator';
+$lang['Copy codes with the same comment'] = 'Copy codes with the same comment';
+$lang['Copy'] = 'Copy';
+$lang['Delete'] = 'Delete';
+$lang['Number of Codes'] = 'Number of Codes';
+$lang['Generate'] = 'Generate';
+$lang['Please enter a comment to search for'] = 'Please enter a comment to search for';
+$lang['No codes found with the matching comment'] = 'No codes found with the matching comment';
+$lang['Failed to copy codes to clipboard'] = 'Failed to copy codes to clipboard';
+$lang['Failed to copy codes'] = 'Failed to copy codes';
 ?>

@@ -81,6 +81,70 @@ function get_register_codes() {
   
   $template->assign('register_codes', $codes);
   $template->assign('expired_codes', $expired_codes);
+  
+  // Pass any generated batch codes to the template
+  if (isset($_SESSION['generated_batch_codes'])) {
+    $template->assign('generated_batch_codes', $_SESSION['generated_batch_codes']);
+    $template->assign('batch_success_count', $_SESSION['batch_success_count']);
+    
+    // Clear the session values after they've been displayed once
+    if (!isset($_POST["batch_count"])) {
+      unset($_SESSION['generated_batch_codes']);
+      unset($_SESSION['batch_success_count']);
+    }
+  }
+}
+
+// Batch code generator function
+if (isset($_POST["batch_count"])) {
+  $batch_count = intval($_POST["batch_count"]);
+  $batch_comment = isset($_POST["batch_comment"]) ? $_POST["batch_comment"] : '';
+  $batch_uses = isset($_POST["batch_uses"]) ? $_POST["batch_uses"] : 1;
+  $batch_expiry = isset($_POST["batch_expiry"]) ? $_POST["batch_expiry"] : '';
+  $_SESSION['reg_codes_uses_default'] = $batch_uses;
+  
+  $generated_codes = array();
+  $success_count = 0;
+  
+  // Generate requested number of codes
+  for ($i = 0; $i < $batch_count; $i++) {
+    // Generate a unique code
+    $unique = false;
+    $code = '';
+    
+    while (!$unique) {
+      // Generate random code (combination of two random strings for better uniqueness)
+      $code = substr(str_shuffle(str_repeat('0123456789abcdefghijklmnopqrstuvwxyz', 5)), 0, 10);
+      
+      // Check if code already exists
+      $check_query = 'SELECT COUNT(*) FROM ' . $prefixeTable . "register_codes WHERE code='$code'";
+      $result = pwg_query($check_query);
+      list($count) = pwg_db_fetch_row($result);
+      
+      if ($count == 0) {
+        $unique = true;
+      }
+    }
+    
+    // Insert the code
+    if ($batch_expiry == "") {
+      $query = 'INSERT INTO ' . $prefixeTable . "register_codes (code, comment, uses, expiry) VALUES ('$code', '$batch_comment', '$batch_uses', NULL)";
+    } else {
+      $query = 'INSERT INTO ' . $prefixeTable . "register_codes (code, comment, uses, expiry) VALUES ('$code', '$batch_comment', '$batch_uses', '$batch_expiry')";
+    }
+    
+    if (pwg_query($query)) {
+      $success_count++;
+      $generated_codes[] = $code;
+    }
+  }
+  
+  // Store generated codes in session for display
+  $_SESSION['generated_batch_codes'] = $generated_codes;
+  $_SESSION['batch_success_count'] = $success_count;
+  
+  $self_url = $_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
+  redirect($self_url);
 }
 
 // Call this function to make sure the data is available for the template

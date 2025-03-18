@@ -12,6 +12,8 @@ add_event_handler('register_user_check', 'check_code');
 function add_register_codes() {
   global $template;
   $template->set_prefilter('register', 'prefilter_register_codes');
+  include_once("functions.inc.php");
+  verify_log();
 }
 
 function prefilter_register_codes($content) {
@@ -35,18 +37,12 @@ function check_code($errors) {
 	list($used,$uses) = pwg_db_fetch_row( pwg_query($check_used) );
 	if($used >= $uses ) {
 	  if($uses == 0) {
-	        $used++;
-                $update_used = 'update ' . $prefixeTable . "register_codes set used = $used where code='$register_code' and (expiry>='$now' or expiry IS NULL)";
-  	        pwg_query($update_used);
 		$update_log = 'insert into ' . $prefixeTable . "register_codes_log (code, used_by, verified) values ('$register_code','$login',0)";
 		pwg_query($update_log);
 	  }else{
 		$errors[] = l10n('Invalid Registration Code');
 	  }
 	}else{
-          $used++;
-          $update_used = 'update ' . $prefixeTable . "register_codes set used = $used where code='$register_code' and (expiry>='$now' or expiry IS NULL)";
-          pwg_query($update_used);
 	  $update_log = 'insert into ' . $prefixeTable . "register_codes_log (code, used_by, verified) values ('$register_code','$login',0)";
           pwg_query($update_log);
 	}

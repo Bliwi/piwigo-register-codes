@@ -8,6 +8,11 @@ check_status(ACCESS_ADMINISTRATOR);
 // Fetch the template.
 global $template, $prefixeTable;
 include_once(PHPWG_ROOT_PATH . 'admin/include/tabsheet.class.php');
+
+// Verify log, update used.
+include_once("functions.inc.php");
+verify_log();
+
 get_register_codes();
 // Add our template to the global template
 $template->set_filenames(
@@ -146,8 +151,5 @@ if (isset($_POST["batch_count"])) {
   $self_url = $_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
   redirect($self_url);
 }
-
-// Call this function to make sure the data is available for the template
-
 
 ?>

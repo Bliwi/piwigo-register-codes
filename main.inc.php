@@ -1,6 +1,6 @@
 <?php
 /*
-Version: 1.0
+Version: 1.3
 Plugin Name: Register Codes
 Plugin URI: // Here comes a link to the Piwigo extension gallery, after
            // publication of your plugin. For auto-updates of the plugin.

@@ -1,4 +1,3 @@
-
 {function name=displayCodesTable table_title='' codes_data=null enable_copy=true}
 <div {if $enable_copy}class="active_codes_table"{/if} id="code_table">
   <table border=1>
@@ -277,4 +276,38 @@
       {displayCodesTable table_title="Expired Codes" codes_data=$expired_codes enable_copy=false}
     </details>
   {/if}
+
+  <!--- Users who used the codes --->
+  <div class="adminContent">
+    <h2>{'Registration History'|translate}</h2>
+    
+    <table class="table">
+      <thead>
+        <tr>
+          <th>{'ID'|translate}</th>
+          <th>{'Username'|translate}</th>
+          <th>{'Registration Code'|translate}</th>
+          <th>{'Code Comment'|translate}</th>
+          <th>{'Registration Date'|translate}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {if empty($registration_history)}
+          <tr>
+            <td colspan="5">{'No registration history found'|translate}</td>
+          </tr>
+        {else}
+          {foreach from=$registration_history item=data}
+            <tr>
+              <td>{$data.user_id}</td>
+              <td>{$data.user_name}</td>
+              <td>{$data.code}</td>
+              <td>{$data.comment}</td>
+              <td>{$data.created_at}</td>
+            </tr>
+          {/foreach}
+        {/if}
+      </tbody>
+    </table>
+  </div>
 </fieldset>

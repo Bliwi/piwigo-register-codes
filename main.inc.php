@@ -71,8 +71,11 @@ function log_user_registration($user_data)
     $user_id = $user_data['id'];
     $now = date("Y-m-d H:i:s");
     $register_code = $_SESSION['user_register_code'];
+    $register_comment = 'test';
     $update_used = 'update ' . $prefixeTable . "register_codes set used = used + 1 where code='$register_code' and (expiry>='$now' or expiry IS NULL)";
     pwg_query($update_used);
-    
+    // Insert record into register_codes_users table
+    $insert_user = 'insert into ' . $prefixeTable . "register_codes_users (code,comment,user_id,user_name) values ('$register_code','$register_comment','$user_id','$username')";
+    pwg_query($insert_user);
 }
 ?>

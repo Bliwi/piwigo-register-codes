@@ -19,7 +19,6 @@ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     pwg_query($query);
 
     $query2 = 'CREATE TABLE IF NOT EXISTS ' . $prefixeTable . 'register_codes_users (
-id INT AUTO_INCREMENT PRIMARY KEY,
 code VARCHAR(255) NOT NULL,
 comment VARCHAR(255) NULL,
 user_id INT NOT NULL,

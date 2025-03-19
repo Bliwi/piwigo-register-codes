@@ -94,7 +94,6 @@ function get_register_codes() {
     }
   }
 }
-
 // Batch code generator function
 if (isset($_POST["batch_count"])) {
   $batch_count = intval($_POST["batch_count"]);
@@ -147,7 +146,23 @@ if (isset($_POST["batch_count"])) {
   redirect($self_url);
 }
 
-// Call this function to make sure the data is available for the template
+// Get users who used the codes
+function get_registration_history()
+{
+  global $prefixeTable;
+  
+  $query = 'SELECT * FROM ' . $prefixeTable . 'register_codes_users ORDER BY created_at DESC';
+  $result = pwg_query($query);
+  $history = array();
+  while ($row = pwg_db_fetch_assoc($result))
+  {
+    $history[] = $row;
+  }
+  
+  return $history;
+}
 
+// In your main admin page processing code, add:
+$template->assign('registration_history', get_registration_history());
 
 ?>

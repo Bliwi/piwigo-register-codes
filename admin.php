@@ -114,7 +114,7 @@ if (isset($_POST["batch_count"])) {
     
     while (!$unique) {
       // Generate random code (combination of two random strings for better uniqueness)
-      $code = substr(str_shuffle(str_repeat('0123456789abcdefghijklmnopqrstuvwxyz', 5)), 0, 10);
+      $code = substr(str_shuffle(str_repeat('0123456789abcdefghijklmnopqrstuvwxyz', 5)), 0, 22);
       
       // Check if code already exists
       $check_query = 'SELECT COUNT(*) FROM ' . $prefixeTable . "register_codes WHERE code='$code'";

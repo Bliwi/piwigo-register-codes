@@ -69,9 +69,10 @@ function log_user_registration($user_data)
     global $prefixeTable;
     $username = $user_data['username'];
     $user_id = $user_data['id'];
+    $now = date("Y-m-d H:i:s");
     $register_code = $_SESSION['user_register_code'];
-    $update_used = 'update ' . $prefixeTable . "register_codes set used = used + 1 where code='$register_code'";
+    $update_used = 'update ' . $prefixeTable . "register_codes set used = used + 1 where code='$register_code' and (expiry>='$now' or expiry IS NULL)";
     pwg_query($update_used);
-    error_log("\nUser registered:" . date('Y-m-d H:i:s') . $username . "User register code: " . $register_code . " User ID: " . $user_id, 3, "./_data/logs/custom_debug.log");
+    
 }
 ?>

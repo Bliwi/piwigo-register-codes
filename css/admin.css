@@ -90,7 +90,7 @@
     margin-top: 10px;
     margin-bottom: 10px;
     }
-    #batch-code-details {
+    .details {
       border: 1px solid var(--border-color);
       width: min-content;
       margin: 10px auto;

@@ -221,7 +221,7 @@
     </table>
   </div>
   <div id="batch-code">
-    <details id="batch-code-details">
+    <details class="details">
       <summary style="font-size: 1.2em; text-wrap: nowrap;">{'Batch Code Generator'|@translate}</summary>
       <form method="post">
         <table border=1 class="table-margin">
@@ -270,8 +270,11 @@
     </details>
   </div>
   
-    {displayCodesTable table_title="Existing Codes" codes_data=$register_codes enable_copy=true}
+    {displayCodesTable table_title="Active Codes" codes_data=$register_codes enable_copy=true}
   {if $expired_codes != null}
+    <details class="details">
+      <summary style="font-size: 1.2em; text-wrap: nowrap;">{'Expired Codes'|@translate}</summary>
       {displayCodesTable table_title="Expired Codes" codes_data=$expired_codes enable_copy=false}
+    </details>
   {/if}
 </fieldset>

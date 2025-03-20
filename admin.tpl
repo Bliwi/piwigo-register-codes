@@ -292,21 +292,18 @@
         </tr>
       </thead>
       <tbody>
-        {if empty($registration_history)}
+        {if empty({$registration_history})}
           <tr>
             <td colspan="5">{'No registration history found'|translate}</td>
           </tr>
         {else}
-          {foreach from=$registration_history item=data}
-            <tr>
-              <td>{$data.user_id}</td>
-              <td>{$data.user_name}</td>
-              <td>{$data.code}</td>
-              <td>{$data.comment}</td>
-              <td>{$data.created_at}</td>
-            </tr>
+	  <tr>
+	  {foreach from=$registration_history[0] key=k item=v}
+              <td>{$k}: {$v}</td>
           {/foreach}
+	  </tr>
         {/if}
+
       </tbody>
     </table>
   </div>

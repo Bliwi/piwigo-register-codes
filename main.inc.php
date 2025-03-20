@@ -2,9 +2,10 @@
 /*
 Version: 1.3
 Plugin Name: Register Codes
-Plugin URI: https://piwigo.org/ext/index.php?eid=997
+Plugin URI: // Here comes a link to the Piwigo extension gallery, after
+           // publication of your plugin. For auto-updates of the plugin.
 Author: swhite-photos
-Description: A plugin for Piwigo that requires users to have a code for registration. Codes can be set to expire or to a defined number of uses with management page.
+Description: Plugin that requires users to have a registration code to register.
 Attributions: foundation-datepicker jss/cs plugin available from https://github.com/najlepsiwebdesigner/foundation-datepicker and also had help by reading the piwigo captcha plugin(s)
 */
 
@@ -17,6 +18,7 @@ define('REGISTER_CODES_PATH', PHPWG_PLUGINS_PATH.basename(dirname(__FILE__)).'/'
 // Hook on to an event to show the administration page.
 add_event_handler('get_admin_plugin_menu_links', 'register_codes_admin_menu');
 add_event_handler('loc_begin_register', 'register_codes_register_init');
+//add_event_handler('login_success', 'register_codes_register_user');
 add_event_handler('init', 'register_codes_init');
 
 function register_codes_admin_menu($menu) {
@@ -44,5 +46,36 @@ function register_codes_init() {
 
 function register_codes_register_init() {
     include(REGISTER_CODES_PATH . '/register_codes_register.php');
+}
+
+function register_codes_register_user() {
+  global $user;
+  $user_register_code = $_SESSION['user_register_code'];
+  $user_id = $user['id'];
+  $username = $user['username'];
+  error_log("User register code: " . $user_register_code . " User ID: " . intval($user_id) . " User Name: " . htmlspecialchars($username), 3, "./_data/logs/custom_debug.log");
+}
+
+// Register the event handler
+add_event_handler('register_user', 'log_user_registration');
+
+/**
+ * Logs the user's name after registration.
+ *
+ * @param array $user_data Array containing user information.
+ */
+function log_user_registration($user_data)
+{
+    global $prefixeTable;
+    $username = $user_data['username'];
+    $user_id = $user_data['id'];
+    $now = date("Y-m-d H:i:s");
+    $register_code = $_SESSION['user_register_code'];
+    $register_comment = 'test';
+    $update_used = 'update ' . $prefixeTable . "register_codes set used = used + 1 where code='$register_code' and (expiry>='$now' or expiry IS NULL)";
+    pwg_query($update_used);
+    // Insert record into register_codes_users table
+    $insert_user = 'insert into ' . $prefixeTable . "register_codes_users (code,comment,user_id,user_name) values ('$register_code','$register_comment','$user_id','$username')";
+    pwg_query($insert_user);
 }
 ?>

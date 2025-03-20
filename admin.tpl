@@ -1,4 +1,3 @@
-
 {function name=displayCodesTable table_title='' codes_data=null enable_copy=true}
 <div {if $enable_copy}class="active_codes_table"{/if} id="code_table">
   <table border=1>
@@ -177,106 +176,7 @@
     }
   }
 </script>
-
-{html_style}
-:root {
---table-header-bg: #4CAF50;
---table-header-color: white;
---row-odd-bg: #f9f9f9;
---row-even-bg: #f1f1f1;
---border-color: #ddd;
---hover-color: #ffedde;
---text-color: #000000;
---btn-bg: #dddddd;
---btn-color: #000000;
-}
-
-#code_table input, #code_table textarea {
-border: 0 !important;
-color: var(--text-color);
-}
-
-table {
-border-collapse: collapse;
-}
-
-/* Table header styling */
-thead {
-background-color: var(--table-header-bg);
-color: var(--table-header-color);
-}
-
-th, td {
-padding: 10px;
-border: 1px solid var(--border-color); /* Adds a border to cells */
-}
-
-/* Zebra striping for rows */
-tbody tr:nth-child(odd) {
-background-color: var(--row-odd-bg);
-}
-
-tbody tr:nth-child(even):not(.row1):not(.row2) {
-background-color: var(--row-even-bg);
-}
-
-/* Hover effect for rows */
-tbody tr:hover {
-background-color: var(--hover-color) !important;
-}
-#code_table INPUT {
-background-color: transparent !important;
-text-align: center;
-}
-#code_table textarea {
-background-color: transparent !important;
-}
-#code_table .row-one {
-background-color: var(--row-odd-bg);
-}
-#code_table .row-two {
-background-color: var(--row-even-bg);
-}
-.btn {
-font-weight: normal;
-border: none;
-border-radius: 5px;
-padding: 5px 10px;
-}
-.btn-bg {
-background-color: var(--btn-bg);
-color: var(--btn-color);
-}
-.btn-copy {
-margin-right: 10px;
-}
-.btn-red {
-color: white;
-background-color: #f44336;
-}
-#new-code INPUT {
-padding: 5px;
-border-radius: 5px;
-}
-#new-code textarea {
-padding: 5px;
-border-radius: 5px;
-}
-#expired_codes {
-margin-top: 20px;
-margin-bottom: 200px;
-}
-.table-margin {
-margin-top: 10px;
-margin-bottom: 10px;
-}
-#batch-code-details {
-  border: 1px solid var(--border-color);
-  width: min-content;
-  margin: 10px auto;
-  padding: 10px;
-}
-{/html_style}
+{combine_css path="plugins/piwigo-register-codes/css/admin.css" order=1}
 <fieldset>
 
   <div id="new-code">
@@ -320,7 +220,7 @@ margin-bottom: 10px;
     </table>
   </div>
   <div id="batch-code">
-    <details id="batch-code-details">
+    <details class="details">
       <summary style="font-size: 1.2em; text-wrap: nowrap;">{'Batch Code Generator'|@translate}</summary>
       <form method="post">
         <table border=1 class="table-margin">
@@ -369,8 +269,45 @@ margin-bottom: 10px;
     </details>
   </div>
   
-    {displayCodesTable table_title="Existing Codes" codes_data=$register_codes enable_copy=true}
+    {displayCodesTable table_title="Active Codes" codes_data=$register_codes enable_copy=true}
   {if $expired_codes != null}
+    <details class="details">
+      <summary style="font-size: 1.2em; text-wrap: nowrap;">{'Expired Codes'|@translate}</summary>
       {displayCodesTable table_title="Expired Codes" codes_data=$expired_codes enable_copy=false}
+    </details>
   {/if}
+
+  <!--- Users who used the codes --->
+  <div class="adminContent">
+    <h2>{'Registration History'|translate}</h2>
+    
+    <table class="table">
+      <thead>
+        <tr>
+          <th>{'ID'|translate}</th>
+          <th>{'Username'|translate}</th>
+          <th>{'Registration Code'|translate}</th>
+          <th>{'Code Comment'|translate}</th>
+          <th>{'Registration Date'|translate}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {if empty($registration_history)}
+          <tr>
+            <td colspan="5">{'No registration history found'|translate}</td>
+          </tr>
+        {else}
+          {foreach from=$registration_history item=data}
+            <tr>
+              <td>{$data.user_id}</td>
+              <td>{$data.user_name}</td>
+              <td>{$data.code}</td>
+              <td>{$data.comment}</td>
+              <td>{$data.created_at}</td>
+            </tr>
+          {/foreach}
+        {/if}
+      </tbody>
+    </table>
+  </div>
 </fieldset>

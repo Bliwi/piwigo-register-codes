@@ -8,11 +8,6 @@ check_status(ACCESS_ADMINISTRATOR);
 // Fetch the template.
 global $template, $prefixeTable;
 include_once(PHPWG_ROOT_PATH . 'admin/include/tabsheet.class.php');
-
-// Verify log, update used.
-include_once("functions.inc.php");
-verify_log();
-
 get_register_codes();
 // Add our template to the global template
 $template->set_filenames(
@@ -99,7 +94,6 @@ function get_register_codes() {
     }
   }
 }
-
 // Batch code generator function
 if (isset($_POST["batch_count"])) {
   $batch_count = intval($_POST["batch_count"]);
@@ -119,7 +113,7 @@ if (isset($_POST["batch_count"])) {
     
     while (!$unique) {
       // Generate random code (combination of two random strings for better uniqueness)
-      $code = substr(str_shuffle(str_repeat('0123456789abcdefghijklmnopqrstuvwxyz', 5)), 0, 10);
+      $code = substr(str_shuffle(str_repeat('0123456789abcdefghijklmnopqrstuvwxyz', 5)), 0, 22);
       
       // Check if code already exists
       $check_query = 'SELECT COUNT(*) FROM ' . $prefixeTable . "register_codes WHERE code='$code'";
@@ -151,5 +145,24 @@ if (isset($_POST["batch_count"])) {
   $self_url = $_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
   redirect($self_url);
 }
+
+// Get users who used the codes
+function get_registration_history()
+{
+  global $prefixeTable;
+  
+  $query = 'SELECT * FROM ' . $prefixeTable . 'register_codes_users ORDER BY created_at DESC';
+  $result = pwg_query($query);
+  $history = array();
+  while ($row = pwg_db_fetch_assoc($result))
+  {
+    $history[] = $row;
+  }
+  
+  return $history;
+}
+
+// In your main admin page processing code, add:
+$template->assign('registration_history', get_registration_history());
 
 ?>

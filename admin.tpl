@@ -292,7 +292,7 @@
         </tr>
       </thead>
       <tbody>
-        {if empty({$registration_history})}
+        {if empty($registration_history)}
           <tr>
             <td colspan="5">{'No registration history found'|translate}</td>
           </tr>

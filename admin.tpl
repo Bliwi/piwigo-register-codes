@@ -286,23 +286,19 @@
         </tr>
         <tr>
           <th>{'Code'|@translate}</th>
-          <th>{'Comment'|@translate}</th>
-          <th>{'User_ID'|@translate}</th>
           <th>{'Username'|@translate}</th>
-          <th>{'Created At'|@translate}</th>
+          <th>{'Registered At'|@translate}</th>
         </tr>
       </thead>
       <tbody>
         {if empty($registration_history)}
           <tr>
-            <td colspan="5">{'No registration history found'|translate}</td>
+            <td colspan="3">{'No registration history found'|translate}</td>
           </tr>
         {else}
 	  {foreach $registration_history as $k=>$v}
 		<tr>
 		<td>{$registration_history[$k].code}</td>
-		<td>{$registration_history[$k].comment}</td>
-		<td>{$registration_history[$k].user_id}</td>
 		<td>{$registration_history[$k].user_name}</td>
 		<td>{$registration_history[$k].created_at}</td>
 		</tr>

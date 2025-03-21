@@ -1,9 +1,8 @@
 <?php
 /*
-Version: 1.3
+Version: 1.4
 Plugin Name: Register Codes
-Plugin URI: // Here comes a link to the Piwigo extension gallery, after
-           // publication of your plugin. For auto-updates of the plugin.
+Plugin URI: https://piwigo.org/ext/index.php?eid=997
 Author: swhite-photos
 Description: Plugin that requires users to have a registration code to register.
 Attributions: foundation-datepicker jss/cs plugin available from https://github.com/najlepsiwebdesigner/foundation-datepicker and also had help by reading the piwigo captcha plugin(s)

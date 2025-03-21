@@ -305,7 +305,7 @@
 		<td>{$registration_history[$k].user_id}</td>
 		<td>{$registration_history[$k].user_name}</td>
 		<td>{$registration_history[$k].created_at}</td>
-		<tr>
+		</tr>
           {/foreach}
         {/if}
 

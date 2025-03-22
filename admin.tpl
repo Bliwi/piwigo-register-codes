@@ -61,8 +61,7 @@ background-color: var(--row-even-bg);
           </td>
           <td>
             {if $enable_copy}
-              <button type="button" class="btn pluginActionLevel1 btn-copy" onclick="copyCode('{$data.code}')">{'Copy'|@translate}
-                Code</button>
+              <button type="button" class="btn pluginActionLevel1 btn-copy" onclick="copyCode('{$data.code}')">{'Copy code'|@translate}</button>
             {/if}
             <input name="code" value="{$data.code}" id="code" readonly />
           </td>
@@ -139,10 +138,10 @@ background-color: var(--row-even-bg);
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(code).then(
         () => {
-          console.log("Code copied to clipboard!");
+          console.log("{'Code copied to clipboard'|@translate}!");
         },
         (err) => {
-          console.error("Failed to copy code: ", err);
+          console.error("{'Failed to copy code'|@translate}: ", err);
         }
       );
     } else {
@@ -152,9 +151,9 @@ background-color: var(--row-even-bg);
       textarea.select();
       try {
         document.execCommand("copy");
-        console.log("Code copied to clipboard!");
+        console.log("{'Code copied to clipboard'|@translate}!");
       } catch (err) {
-        console.error("Fallback: Failed to copy code: ", err);
+        console.error("{'Failed to copy code'|@translate}: ", err);
       }
       document.body.removeChild(textarea);
     }
@@ -191,7 +190,7 @@ background-color: var(--row-even-bg);
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(codesText).then(
         () => {
-            alert(`Copied ` + matchingCodes.length + ` codes to clipboard!`);
+            alert(`{'Copied'|@translate} ` + matchingCodes.length + ` {'codes to clipboard'|@translate}!`);
         },
         (err) => {
           console.error("{'Failed to copy codes'|@translate}: ", err);
@@ -205,7 +204,7 @@ background-color: var(--row-even-bg);
       textarea.select();
       try {
         document.execCommand("copy");
-        alert(`Copied ` + matchingCodes.length + ` codes to clipboard!`);
+        alert(`{'Copied'|@translate} ` + matchingCodes.length + ` {'codes to clipboard'|@translate}!`);
       } catch (err) {
         console.error("{'Failed to copy codes'|@translate}: ", err);
         alert("{'Failed to copy codes to clipboard'|@translate}");
@@ -232,12 +231,12 @@ background-color: var(--row-even-bg);
         </tr>
         <tr>
           <!-- <td><p><textarea style="border: none;" class="span2" name="register_code" placeholder="Example Code" id="register_code"></textarea></p></td> -->
-          <td><button type="button" class="btn btn-bg" onclick="generateCode()">Generate Code</button>
-            <p><input type="textarea" class="span2" name="register_code" placeholder="Example Code"
+          <td><button type="button" class="btn btn-bg" onclick="generateCode()">{'Generate Code'|@translate}</button>
+            <p><input type="textarea" class="span2" name="register_code" placeholder="{'Example Code'|@translate}"
                 id="register_code"></p>
           </td>
           <td>
-            <p><textarea class="span2" name="register_comment" placeholder="Optional Comment"
+            <p><textarea class="span2" name="register_comment" placeholder="{'Optional Comment'|@translate}"
                 id="register_comment"></textarea></p>
           </td>
           <td>
@@ -251,7 +250,7 @@ background-color: var(--row-even-bg);
             <p><input type="text" class="span2" name="register_expiry"
                 value="{date("Y-m-d H:i:00", strtotime("+1 week", strtotime("now")))}" id="register_expiry"></p>
           </td>
-          <td><button type="submit" class="btn btn-bg">Add</button></td>
+          <td><button type="submit" class="btn btn-bg">{'Add'|@translate}</button></td>
         </tr>
       </form>
     </table>
@@ -273,7 +272,7 @@ background-color: var(--row-even-bg);
             <input type="number" name="batch_count" id="batch_count" value="10" min="1" max="100">
           </td>
           <td>
-            <textarea class="span2" name="batch_comment" placeholder="Optional Comment" id="batch_comment"></textarea>
+            <textarea class="span2" name="batch_comment" placeholder="{'Optional Comment'|@translate}" id="batch_comment"></textarea>
           </td>
           <td>
             <center><input type="number" id="batch_uses" name="batch_uses" 
@@ -285,7 +284,7 @@ background-color: var(--row-even-bg);
                    value="{date("Y-m-d H:i:00", strtotime("+1 week", strtotime("now")))}" id="batch_expiry">
           </td>
           <td>
-            <button type="submit" class="btn btn-bg">Generate</button>
+            <button type="submit" class="btn btn-bg">{'Generate'|@translate}</button>
           </td>
         </tr>
         </table>
@@ -306,7 +305,7 @@ background-color: var(--row-even-bg);
     </details>
   </div>
   
-    {displayCodesTable table_title="Active Codes" codes_data=$register_codes enable_copy=true}
+    {displayCodesTable table_title="{'Active Codes'|@translate}" codes_data=$register_codes enable_copy=true}
   {if $expired_codes != null}
     <details class="details">
       <summary style="font-size: 1.2em; text-wrap: nowrap;">{'Expired Codes'|@translate}</summary>

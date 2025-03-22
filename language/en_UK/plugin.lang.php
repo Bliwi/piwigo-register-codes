@@ -1,6 +1,7 @@
 <?php
 $lang['Register Codes Plugin'] = 'Register Codes Plugin.';
 $lang['Registration Code'] = 'Registration Code';
+$lang['Add New Code'] = 'Add New Code';
 $lang['Registration Code Required'] = 'Registration Code Required';
 $lang['Register Codes Description'] = 'A plugin for Piwigo that requires users to have a code for registration. Codes can be set to expire or to a defined number of uses.';
 $lang['Code'] = 'Code';
@@ -16,6 +17,7 @@ $lang['ID'] = 'ID';
 $lang['Batch Code Generator'] = 'Batch Code Generator';
 $lang['Copy codes with the same comment'] = 'Copy codes with the same comment';
 $lang['Copy'] = 'Copy';
+$lang['Copy code'] = 'Copy code';
 $lang['Delete'] = 'Delete';
 $lang['Number of Codes'] = 'Number of Codes';
 $lang['Generate'] = 'Generate';
@@ -23,4 +25,16 @@ $lang['Please enter a comment to search for'] = 'Please enter a comment to searc
 $lang['No codes found with the matching comment'] = 'No codes found with the matching comment';
 $lang['Failed to copy codes to clipboard'] = 'Failed to copy codes to clipboard';
 $lang['Failed to copy codes'] = 'Failed to copy codes';
+$lang['Generate Code'] = 'Generate Code';
+$lang['Example Code'] = 'Example Code';
+$lang['Optional Comment'] = 'Optional Comment';
+$lang['Code copied to clipboard'] = 'Code copied to clipboard';
+$lang['Failed to copy code'] = 'Failed to copy code';
+$lang['Copied'] = 'Copied';
+$lang['codes to clipboard'] = 'codes to clipboard';
+$lang['Failed to copy codes to clipboard'] = 'Failed to copy codes to clipboard';
+$lang['Active Codes'] = 'Active Codes';
+$lang['Expired Codes'] = 'Expired Codes';
+$lang['Registration History'] = 'Registration History';
+$lang['Registered At'] = 'Registered At';
 ?>

@@ -2,7 +2,9 @@
   border: 0 !important;
   color: var(--text-color);
   }
-  
+  summary {
+  cursor: pointer;
+  }
   table {
   border-collapse: collapse;
   margin: 5px auto;
@@ -32,6 +34,7 @@
   border: none;
   border-radius: 5px;
   padding: 5px 10px;
+  cursor: pointer;
   }
   
   .btn-copy {
@@ -41,11 +44,11 @@
   color: white;
   background-color: #f44336;
   }
-  #new-code INPUT {
+  #new-code INPUT, #batch-code INPUT {
   padding: 5px;
   border-radius: 5px;
   }
-  #new-code textarea {
+  #new-code textarea, #batch-code textarea {
   padding: 5px;
   border-radius: 5px;
   }

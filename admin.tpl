@@ -23,10 +23,6 @@ background-color: var(--row-even-bg);
 background-color: var(--btn-bg);
 color: var(--btn-color);
 }
-thead {
-background-color: var(--table-header-bg);
-color: var(--table-header-color);
-}
 
 th, td {
 border: 1px solid var(--border-color);
@@ -44,7 +40,7 @@ background-color: var(--row-even-bg);
 <div {if $enable_copy}class="active_codes_table"{/if} id="code_table">
   <table border=1>
     <tr>
-      <th colspan="8">{$table_title|@translate}</th>
+      <th colspan="8" class="row-one">{$table_title|@translate}</th>
     </tr>
     <tr>
       <th>{'ID'|@translate}</th>
@@ -126,7 +122,7 @@ background-color: var(--row-even-bg);
         document.documentElement.style.setProperty('--border-color', '#666');
         document.documentElement.style.setProperty('--hover-color', '#4a3c2e');
         document.documentElement.style.setProperty('--text-color', '#ffffff');
-        document.documentElement.style.setProperty('--btn-bg', '#444444');
+        document.documentElement.style.setProperty('--btn-bg', '#333333');
         document.documentElement.style.setProperty('--btn-color', '#ffffff');
       }
     }
@@ -264,7 +260,7 @@ background-color: var(--row-even-bg);
     <details class="details">
       <summary style="font-size: 1.2em; text-wrap: nowrap;">{'Batch Code Generator'|@translate}</summary>
       <form method="post">
-        <table border=1 class="table-margin">
+          <table border=1 class="table-margin">
           <tr>
           <th>{'Number of Codes'|@translate}</th>
           <th>{'Comment'|@translate}</th>
@@ -285,7 +281,7 @@ background-color: var(--row-even-bg);
                    min="0"></center>
           </td>
           <td>
-            <input style="border:0" type="text" class="span2" name="batch_expiry" 
+            <input type="text" class="span2" name="batch_expiry" 
                    value="{date("Y-m-d H:i:00", strtotime("+1 week", strtotime("now")))}" id="batch_expiry">
           </td>
           <td>
@@ -317,13 +313,12 @@ background-color: var(--row-even-bg);
       {displayCodesTable table_title="Expired Codes" codes_data=$expired_codes enable_copy=false}
     </details>
   {/if}
-  <br>
   <!--- Users who used the codes --->
   <div class="adminContent">
-    <table class="table" border=1>
+    <table id="code_table" class="table" border=1>
       <thead>
         <tr>
-          <th colspan="5">{'Registration History'|@translate}</th>
+          <th colspan="5" class="row-one">{'Registration History'|@translate}</th>
         </tr>
         <tr>
           <th>{'Code'|@translate}</th>
@@ -338,12 +333,12 @@ background-color: var(--row-even-bg);
           </tr>
         {else}
 	  {foreach $registration_history as $k=>$v}
-		<tr>
-		<td>{$registration_history[$k].code}</td>
-		<td>{$registration_history[$k].user_name}</td>
-		<td>{$registration_history[$k].created_at}</td>
+		<tr class="{cycle values='row-one,row-two'}">
+      <td>{$registration_history[$k].code}</td>
+      <td>{$registration_history[$k].user_name}</td>
+      <td>{$registration_history[$k].created_at}</td>
 		</tr>
-          {/foreach}
+    {/foreach}
         {/if}
 
       </tbody>

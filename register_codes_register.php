@@ -30,17 +30,19 @@ function check_code($errors)
     $now = date("Y-m-d H:i:s");
     $check_query = 'select * from ' . $prefixeTable . "register_codes where code='$register_code' and (expiry>='$now' or expiry IS NULL)";
     $check_return = pwg_query($check_query);
-    $code_count = pwg_db_num_rows($check_return);
-    if ($code_count == 0) {
-      $errors[] = l10n('Invalid Registration Code');
+    if (!pwg_db_num_rows($check_return)) {
+      $errors[] = l10n('Invalid Registration Code (' . $check_query . ')');
     } else {
       $check_used = 'select used,uses from ' . $prefixeTable . "register_codes where code='$register_code' and (expiry>='$now' or expiry IS NULL)";
       list($used, $uses) = pwg_db_fetch_row(pwg_query($check_used));
-      if ($used <= $uses && $uses != 0) {
-        $used++;
-        $_SESSION['user_register_code'] = $register_code;
-      } else {
-        $errors[] = l10n('Invalid Registration Code');
+      if($used >= $uses ) {
+        if($uses == 0) { // Needed for Unlimited
+	      $_SESSION['user_register_code'] = $register_code;
+        }else{
+              $errors[] = l10n('Invalid Registration Code');
+        }
+      }else{
+	$_SESSION['user_register_code'] = $register_code;
       }
     }
   } else {

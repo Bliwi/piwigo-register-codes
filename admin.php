@@ -9,6 +9,8 @@ check_status(ACCESS_ADMINISTRATOR);
 global $template, $prefixeTable;
 include_once(PHPWG_ROOT_PATH . 'admin/include/tabsheet.class.php');
 get_register_codes();
+$template->assign('registration_history',get_registration_history());
+
 // Add our template to the global template
 $template->set_filenames(
  array(
@@ -158,11 +160,8 @@ function get_registration_history()
   {
     $history[] = $row;
   }
-  
+
   return $history;
 }
-
-// In your main admin page processing code, add:
-$template->assign('registration_history', get_registration_history());
 
 ?>

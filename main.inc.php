@@ -1,9 +1,8 @@
 <?php
 /*
-Version: 1.0
+Version: 1.4
 Plugin Name: Register Codes
-Plugin URI: // Here comes a link to the Piwigo extension gallery, after
-           // publication of your plugin. For auto-updates of the plugin.
+Plugin URI: https://piwigo.org/ext/index.php?eid=997
 Author: swhite-photos
 Description: Plugin that requires users to have a registration code to register.
 Attributions: foundation-datepicker jss/cs plugin available from https://github.com/najlepsiwebdesigner/foundation-datepicker and also had help by reading the piwigo captcha plugin(s)
@@ -68,14 +67,10 @@ function log_user_registration($user_data)
 {
     global $prefixeTable;
     $username = $user_data['username'];
-    $user_id = $user_data['id'];
-    $now = date("Y-m-d H:i:s");
     $register_code = $_SESSION['user_register_code'];
-    $register_comment = 'test';
-    $update_used = 'update ' . $prefixeTable . "register_codes set used = used + 1 where code='$register_code' and (expiry>='$now' or expiry IS NULL)";
+    $update_used = 'update ' . $prefixeTable . "register_codes set used = used + 1 where code='$register_code'";
     pwg_query($update_used);
-    // Insert record into register_codes_users table
-    $insert_user = 'insert into ' . $prefixeTable . "register_codes_users (code,comment,user_id,user_name) values ('$register_code','$register_comment','$user_id','$username')";
+    $insert_user = 'insert into ' . $prefixeTable . "register_codes_users (code,user_name) values ('$register_code','$username')";
     pwg_query($insert_user);
 }
 ?>

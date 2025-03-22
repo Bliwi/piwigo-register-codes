@@ -276,37 +276,35 @@
       {displayCodesTable table_title="Expired Codes" codes_data=$expired_codes enable_copy=false}
     </details>
   {/if}
-
+  <br>
   <!--- Users who used the codes --->
   <div class="adminContent">
-    <h2>{'Registration History'|translate}</h2>
-    
-    <table class="table">
+    <table class="table" border=1>
       <thead>
         <tr>
-          <th>{'ID'|translate}</th>
-          <th>{'Username'|translate}</th>
-          <th>{'Registration Code'|translate}</th>
-          <th>{'Code Comment'|translate}</th>
-          <th>{'Registration Date'|translate}</th>
+          <th colspan="5">{'Registration History'|@translate}</th>
+        </tr>
+        <tr>
+          <th>{'Code'|@translate}</th>
+          <th>{'Username'|@translate}</th>
+          <th>{'Registered At'|@translate}</th>
         </tr>
       </thead>
       <tbody>
         {if empty($registration_history)}
           <tr>
-            <td colspan="5">{'No registration history found'|translate}</td>
+            <td colspan="3">{'No registration history found'|translate}</td>
           </tr>
         {else}
-          {foreach from=$registration_history item=data}
-            <tr>
-              <td>{$data.user_id}</td>
-              <td>{$data.user_name}</td>
-              <td>{$data.code}</td>
-              <td>{$data.comment}</td>
-              <td>{$data.created_at}</td>
-            </tr>
+	  {foreach $registration_history as $k=>$v}
+		<tr>
+		<td>{$registration_history[$k].code}</td>
+		<td>{$registration_history[$k].user_name}</td>
+		<td>{$registration_history[$k].created_at}</td>
+		</tr>
           {/foreach}
         {/if}
+
       </tbody>
     </table>
   </div>
